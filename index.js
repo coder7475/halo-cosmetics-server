@@ -1,12 +1,17 @@
-// Imports
-const express = require('express')
+// Imports - required libraries
+const express = require('express');
+const cors = require('cors');
 // Initializations
-const app = express()
+const app = express();
 const port = process.env.PORT || 3000;
 
-// root routes
+// middlewares
+app.use(express.json());
+app.use(cors());
+
+// root routes 
 app.get('/', (req, res) => {
-  res.send('Halo Server is running')
+  res.send('Halo Server is running');
 })
 
 app.listen(port, () => {

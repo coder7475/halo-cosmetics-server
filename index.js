@@ -42,15 +42,20 @@ async function run() {
     // access comapnies db
     const myDB = client.db("companies");
     const myCol = await myDB.collection("brands");
+    const productsCol = client.db("allProducts").collection("products");
 
     app.get('/brands', async(req, res) => {
       const cursor = myCol.find();
       const allValues = await cursor.toArray();
       res.send(allValues);
     })
-
+    
+    app.get('/products', async(req, res) => {
+      const cursor = productsCol.find();
+      const allValues = await cursor.toArray();
+      res.send(allValues);
+    })
     // access products collection
-    const productsCol = client.db("allProducts").collection("products");
 
     // insert a product to the database
     app.post("/products", async(req, res) => {
@@ -60,11 +65,7 @@ async function run() {
       res.send(result);
     })
 
-    app.get('/products', async(req, res) => {
-      const cursor = productsCol.find();
-      const allValues = await cursor.toArray();
-      res.send(allValues);
-    })
+    
 
 
   } finally {

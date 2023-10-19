@@ -40,16 +40,23 @@ async function run() {
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
 
     // access comapnies db
-    const myDB = client.db("companies");
+    const myDB = await client.db("companies");
     const myCol = await myDB.collection("brands");
-    const productsCol = client.db("allProducts").collection("products");
+    const slidersCol = await myDB.collection("sliders");
+    const productsCol = await client.db("allProducts").collection("products");
 
     app.get('/brands', async(req, res) => {
       const cursor = myCol.find();
       const allValues = await cursor.toArray();
       res.send(allValues);
     })
-    
+
+    app.get('/sliders', async(req, res) => {
+      const cursor = slidersCol.find();
+      const allValues = await cursor.toArray();
+      res.send(allValues);
+    })
+
     app.get('/products', async(req, res) => {
       const cursor = productsCol.find();
       const allValues = await cursor.toArray();

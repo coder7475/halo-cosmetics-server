@@ -38,10 +38,22 @@ async function run() {
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
+
+    // access comapnies db
+    const myDB = client.db("companies");
+    const myCol = await myDB.collection("brands");
+
+    app.get('/brands', async(req, res) => {
+      const cursor = myCol.find();
+      const allValues = await cursor.toArray();
+      res.send(allValues);
+    })
+
+
   } finally {
     // Ensures that the client will close when you finish/error
-    await client.close();
-    console.log("Now connection is close. connection close");
+    // await client.close();
+    // console.log("Now connection is close. connection close");
   }
 }
 run().catch(console.dir);

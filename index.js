@@ -49,6 +49,15 @@ async function run() {
       res.send(allValues);
     })
 
+    // access products collection
+    const productsCol = client.db("allProducts").collection("products");
+
+    app.post("/products", async(req, res) => {
+      const product = req.body;
+      console.log(product);
+      const result = productsCol.insertOne(product);
+      res.send(result);
+    })
 
   } finally {
     // Ensures that the client will close when you finish/error

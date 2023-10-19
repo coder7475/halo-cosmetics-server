@@ -61,7 +61,7 @@ async function run() {
     })
 
     app.get('/products', async(req, res) => {
-      const cursor = myCol.find();
+      const cursor = productsCol.find();
       const allValues = await cursor.toArray();
       res.send(allValues);
     })

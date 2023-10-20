@@ -82,7 +82,7 @@ async function run() {
     // update a product in the database
     app.put("/updateProduct", async(req, res) => {
       const info = req.body;
-      console.log(info);
+      // console.log(info);
       const { id } = info;
       const filter = { _id: new ObjectId(id)};
       const options = { upsert: true};

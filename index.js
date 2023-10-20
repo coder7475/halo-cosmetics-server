@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require('dotenv');
 // mongo
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 
 // Initializations
 const app = express();
@@ -85,6 +85,16 @@ async function run() {
       res.send(result);
     })
 
+    app.delete("/cart", async(req, res) => {
+      // const id = req.params.id;
+      const product = req.body;
+      const { id, uid } = product;
+      const query = { _id: new ObjectId(id), uid };
+      // console.log(id, product);
+      // console.log(query);
+      const result = await cartCol.deleteOne(query);
+      res.send(result);
+    })
 
   } finally {
     // Ensures that the client will close when you finish/error

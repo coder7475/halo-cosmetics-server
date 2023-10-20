@@ -7,7 +7,7 @@ const { MongoClient, ServerApiVersion } = require("mongodb");
 
 // Initializations
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3002;
 dotenv.config();
 
 // mongo
@@ -44,6 +44,7 @@ async function run() {
     const myCol = await myDB.collection("brands");
     const slidersCol = await myDB.collection("sliders");
     const productsCol = await client.db("allProducts").collection("products");
+    const cartCol = await client.db("Cart").collection("cartProducts");
 
     app.get('/brands', async(req, res) => {
       const cursor = myCol.find();
@@ -63,7 +64,12 @@ async function run() {
       res.send(allValues);
     })
     // access products collection
-
+    app.get("/cart", async(req, res) => {
+      const cursor = productsCol.find();
+      // console.log(product);
+      const result = await cursor.toArray();
+      res.send(result);
+    })
     // insert a product to the database
     app.post("/products", async(req, res) => {
       const product = req.body;
@@ -72,7 +78,12 @@ async function run() {
       res.send(result);
     })
 
-    
+    app.post("/cart", async(req, res) => {
+      const product = req.body;
+      // console.log(product);
+      const result = await cartCol.insertOne(product);
+      res.send(result);
+    })
 
 
   } finally {

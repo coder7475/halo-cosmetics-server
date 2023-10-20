@@ -11,7 +11,7 @@ const port = process.env.PORT || 3002;
 dotenv.config();
 
 // mongo
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.xjslrno.mongodb.net/?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://robiulhossain7475:OmCCSErjAPs51DKY@cluster0.xjslrno.mongodb.net/?retryWrites=true&w=majority`;
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
   serverApi: {
@@ -47,7 +47,8 @@ async function run() {
     const cartCol = await client.db("Cart").collection("cartProducts");
 
     app.get('/brands', async(req, res) => {
-      const cursor = myCol.find();
+      co
+      nst cursor = myCol.find();
       const allValues = await cursor.toArray();
       res.send(allValues);
     })
@@ -70,6 +71,7 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     })
+
 
     // insert a product to the database
     app.post("/products", async(req, res) => {

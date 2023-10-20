@@ -70,6 +70,7 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     })
+
     // insert a product to the database
     app.post("/products", async(req, res) => {
       const product = req.body;
@@ -78,6 +79,33 @@ async function run() {
       res.send(result);
     })
 
+    // update a product in the database
+    app.put("/updateProduct", async(req, res) => {
+      const info = req.body;
+      console.log(info);
+      const { id } = info;
+      const filter = { _id: new ObjectId(id)};
+      const options = { upsert: true};
+
+      const updatedProduct = {
+        $set: {
+          name: info.name,
+          image: info.image,
+          brand: info.brand,
+          price: info.price,
+          type: info.type,
+          rating: info.rating,
+          description: info.description
+        }
+      }
+
+      const result = await productsCol.updateOne(filter, updatedProduct, options);
+
+      res.send(result);
+
+    })
+
+    // insert products in a cart with user id
     app.post("/cart", async(req, res) => {
       const product = req.body;
       // console.log(product);
